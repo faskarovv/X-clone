@@ -9,6 +9,7 @@ public class XCloneApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(XCloneApplication.class, args);
+
     }
 
 
