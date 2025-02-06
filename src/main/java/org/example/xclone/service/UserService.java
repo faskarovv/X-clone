@@ -3,6 +3,7 @@ package org.example.xclone.service;
 
 import org.example.xclone.exception.EntityAlreadyInUse;
 import org.example.xclone.exception.EntityNotFoundException;
+import org.example.xclone.model.dto.CommentDto;
 import org.example.xclone.model.dto.UserDto;
 import org.example.xclone.model.entity.User;
 import org.example.xclone.repository.UserRepo;
@@ -110,4 +111,6 @@ public class UserService {
              userRepo.delete(user);
          }
     }
+
+
 }

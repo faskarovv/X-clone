@@ -97,4 +97,14 @@ public class PostService {
         return response;
     }
 
+    public void deletePost(Long id) {
+        Post existingPost = postRepo.findById(id).orElse(null);
+
+        if(existingPost == null){
+            throw new EntityNotFoundException("no such entity exist with given ID");
+        }
+        else{
+            postRepo.delete(existingPost);
+        }
+    }
 }
