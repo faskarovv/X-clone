@@ -20,6 +20,9 @@ public class Post {
     private Long postId;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String content;
 
     @CreationTimestamp

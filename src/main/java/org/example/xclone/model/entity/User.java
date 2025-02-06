@@ -1,12 +1,15 @@
 package org.example.xclone.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.processing.Pattern;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,19 +28,23 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n")
     private String password;
 
 
-    @Column(nullable = false)
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+    @Email(message = "Please provide a valid email address")
     private String email;
 
     @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
+    @NotNull(message = "Role is required")
     private Role role;
 
    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
