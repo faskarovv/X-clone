@@ -1,6 +1,7 @@
 package org.example.xclone.service;
 
 
+import jakarta.validation.Valid;
 import org.example.xclone.exception.EntityAlreadyInUse;
 import org.example.xclone.exception.EntityNotFoundException;
 import org.example.xclone.model.dto.CommentDto;
@@ -9,6 +10,7 @@ import org.example.xclone.model.entity.User;
 import org.example.xclone.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +19,14 @@ import java.util.stream.Collectors;
 public class UserService {
       UserRepo userRepo;
 
-     @Autowired
-    public UserService(UserRepo userRepo) {
+       RestTemplate restTemplate;
+
+
+
+    @Autowired
+    public UserService(UserRepo userRepo , RestTemplate restTemplate) {
         this.userRepo = userRepo;
+        this.restTemplate = restTemplate;
     }
 
 
@@ -35,8 +42,8 @@ public class UserService {
             return new UserDto.response(
                     user.getUserId(),
                     user.getUsername(),
-                    user.getEmail(),
-                    user.getRole()
+                    user.getEmail()
+
             );
         }
 
@@ -53,7 +60,7 @@ public class UserService {
     }
 
 
-    public UserDto.response createUser(UserDto.createRequest userDto) {
+    public UserDto.response createUser(@Valid UserDto.createRequest userDto) {
          User existingUser = userRepo.findByEmail(userDto.getEmail());
 
          if(existingUser != null){
@@ -64,7 +71,7 @@ public class UserService {
          newUser.setUsername(userDto.getUsername());
          newUser.setEmail(userDto.getEmail());
          newUser.setPassword(userDto.getPassword());
-         newUser.setRole(userDto.getRole());
+
 
          User savedUser = userRepo.save(newUser);
 
@@ -88,7 +95,7 @@ public class UserService {
             updatedUser.setUsername(user.getUsername());
             updatedUser.setPassword(user.getPassword());
             updatedUser.setEmail(user.getEmail());
-            updatedUser.setRole(user.getRole());
+
 
             User savedUser = userRepo.save(updatedUser);
 

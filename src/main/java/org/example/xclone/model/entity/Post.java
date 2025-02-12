@@ -20,7 +20,7 @@ public class Post {
     private Long postId;
 
     @Column(nullable = false)
-    private String name;
+    private String name = "default_name";
 
     @Column(nullable = false)
     private String content;

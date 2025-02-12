@@ -28,7 +28,7 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n")
+    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$")
     private String password;
 
 
@@ -43,9 +43,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
-    @NotNull(message = "Role is required")
-    private Role role;
+
 
    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
    private List<Post> posts = new ArrayList<>();

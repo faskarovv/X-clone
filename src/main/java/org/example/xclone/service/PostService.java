@@ -4,6 +4,7 @@ import org.example.xclone.exception.EntityAlreadyInUse;
 import org.example.xclone.exception.EntityNotFoundException;
 import org.example.xclone.model.dto.PostDto;
 import org.example.xclone.model.entity.Post;
+import org.example.xclone.model.entity.User;
 import org.example.xclone.repository.PostRepo;
 import org.example.xclone.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class PostService {
         if(exisitingPost!=null){
             throw new EntityAlreadyInUse(" such post already exists");
         }
+
         Post newPost = new Post();
         newPost.setName(post.getName());
         newPost.setContent(post.getContent());
@@ -106,5 +108,17 @@ public class PostService {
         else{
             postRepo.delete(existingPost);
         }
+    }
+
+
+    public List<PostDto.response> getPostsByUserId(Long userId) {
+        User user = userRepo.findById(userId).orElse(null);
+
+
+        List<Post> postList = postRepo.findByUser(user);
+
+        return postList.stream()
+                .map(post->mapToPostDto(post))
+                .collect(Collectors.toList());
     }
 }
